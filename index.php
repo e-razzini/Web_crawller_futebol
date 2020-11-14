@@ -1,11 +1,10 @@
 <?php
 
-
 $resultadoJogos = [];
 
 $url = 'https://www.placardefutebol.com.br/';
 $dom = new DOMDocument();
-$arrayJogos =[];
+$arrayJogos = [];
 $html = file_get_contents($url);
 
 libxml_use_internal_errors(true);
@@ -18,30 +17,46 @@ $tagDivPai = $dom->getElementsByTagName('div');
 //pega os valores de div dentro da div Principal
 
 //funcao retornar divs
-foreach ($tagDivPai as $value) {
- //    print_r($value);
+foreach ($tagDivPai as $tagsDivFilho) {
+//  print_r($tagsDivFilho);
 
-    $buscarClasse = $value->getAttribute('class');
+    $buscarClasse = $tagsDivFilho->getAttribute('class');
 
-    if ($buscarClasse == "container content trending-box") {  
+    if ($buscarClasse == "container content trending-box") {
 
-       $tagsA = $value->getElementsByTagName('a');
 
-       foreach ($tagsA as  $tag) {
+        $tagsA = $tagsDivFilho->getElementsByTagName('a');
+        $tagsSpan = $tagsDivFilho->getElementsByTagName('span');
+        $tagsH5 = $tagsDivFilho->getElementsByTagName('h5');
+        $tagsH4 = $tagsDivFilho->getElementsByTagName('h4');
+        $tagsP = $tagsDivFilho->getElementsByTagName('p');
 
-          $arrayJogos[] = $tag->nodeValue;
-        
+        foreach ($tagsA as $tag) {
+
+            $arrayTagA[] = $tag->nodeValue;
         }
-        print_r($arrayJogos[4]);
+       // print_r($arrayTagA);
 
+        foreach ($tagsSpan as $tagS) {
+
+            $arrayTagS[] = $tagS->nodeValue;
+        }
+      //  print_r($arrayTagS);
+
+        foreach ($tagsH5 as $tagH5) {
+
+            $arrayTagH5[] = $tagH5->nodeValue;
+        }      
+        foreach ($tagsP as $tagP) {
+
+            $arrayTagP[] = $tagP->nodeValue;
+        }
+      
+
+       $arrayJogos['Times'] = $arrayTagH5;
+       $arrayJogos['situacao'] = $arrayTagS;
+       $arrayJogos['versos'] = $arrayTagP;
     }
 
-
-    
-    
 }
-
-    //fim classe especifica
-
-
-
+print_r($arrayJogos);

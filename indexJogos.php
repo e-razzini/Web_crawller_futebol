@@ -6,6 +6,6 @@ $resultados = new PlacarFutebol();
 
 $paragrafoResultados = $resultados->resultadoPlacar();
 
-print_r($paragrafoResultados);
+//print_r($paragrafoResultados);
 
 

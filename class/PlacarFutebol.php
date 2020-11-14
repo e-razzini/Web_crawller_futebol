@@ -1,34 +1,35 @@
- <?php 
+<?php
 
- class PlacarFutebol {
-  
+class PlacarFutebol
+{
+
     private $url;
     private $proxy;
     private $dom;
     private $html;
-    public $resultadoJogos =[];
+// public $resultadoJogos =[];
 
     public function __construct()
     {
         $this->proxy = '10.1.21.254:3128';
         $this->url = 'https://www.gutenberg.org/';
-        $this->dom =  new DOMDocument();
+        $this->dom = new DOMDocument();
     }
 
-    private function getContextoConexao()                
+    private function getContextoConexao()
     {
         $arrayPConfig = array(
 
             'http' => array(
 
                 'proxy' => $this->proxy,
-                'request_fulluri' => true
+                'request_fulluri' => true,
             ),
 
             'https' => array(
                 'proxy' => $this->proxy,
-                'request_fulluri' => true
-            )
+                'request_fulluri' => true,
+            ),
         );
 
         $context = stream_context_create($arrayPConfig);
@@ -36,12 +37,9 @@
         return $context;
     }
 
+    /////
     private function carregarHtml()
     {
-        /* usar somente em local que for config PROXY 
-        $context = $this->getContextoConexao();
-        $this->html = file_get_contents($this->url, false, $context);
-        */
         $this->html = file_get_contents($this->url);
 
         libxml_use_internal_errors(true);
@@ -51,6 +49,7 @@
         libxml_clear_errors();
     }
 
+    /////
     private function capturaTodasDivs()
     {
 
@@ -58,53 +57,54 @@
         return $todasDiv;
     }
 
-    private function divEncontrar($todasDiv)
+    /////
+    private function divEncontrar($todasDiv, $class = array('container content trending-box'), $tagBuscada = array('a'), $atributoHtml = array('class'))
     {
 
         $tagEncontrada = null;
 
-        foreach ($todasDiv as  $dvsInternas) {
+        foreach ($todasDiv as $dvsInternas) {
 
-            $buscaClasse = $dvsInternas->getAttribute('class');
+            $buscaClasse = $dvsInternas->getAttribute($atributoHtml);
 
-            if ($buscaClasse == 'container content trending-box') {
+            if ($buscaClasse == $class) {
 
-                $tagEncontrada = $dvsInternas->getElementsByTagName('a');
-                
-            break;
+                $tagEncontrada = $dvsInternas->getElementsByTagName($tagBuscada);
+
+            }
         }
+        return $tagEncontrada;
     }
-    return $tagEncontrada;
-
-    }
-
-    private function encontrarTag($tagEncontrada)
+   
+    /////
+    private function getTags($tagEncontrada)
     {
-        $arrayResultados= [];
+        $arrayResultados = [];
+
         foreach ($tagEncontrada as $tag) {
 
-          $arrayResultados[]= $tag->nodeValue;
+            $arrayResultados[] = $tag->nodeValue;
         }
 
-       return $arrayResultados;
+        return $arrayResultados;
     }
-
-
-    public function resultadoPlacar(){
+    
+    /////
+    public function resultadoPlacar()
+    {
 
         $this->carregarHtml();
 
         $tagsDiv = $this->capturaTodasDivs();
 
-        $buscaDiv =$this->divEncontrar($tagsDiv);
-
-        $tags = $this->encontrarTag($buscaDiv);
-
-        $resultadoJogos[] = $tags;
-
+        $encontraTagA = $this->divEncontrar($tagsDiv);
+        $resultadoJogos = $this->getTags($encontraTagA);
         return $resultadoJogos;
-       
+
     }
 
 }
+$resultados = new PlacarFutebol();
 
+$paragrafoResultados = $resultados->resultadoPlacar();
+echo $paragrafoResultados;
