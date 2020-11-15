@@ -12,13 +12,12 @@ libxml_use_internal_errors(true);
 $dom->loadHTML($html);
 libxml_clear_errors();
 
-$tagDivPai = $dom->getElementsByTagName('div');
+    $tagDivPai = $dom->getElementsByTagName('div');
+   
 
-//pega os valores de div dentro da div Principal
 
-//funcao retornar divs
 foreach ($tagDivPai as $tagsDivFilho) {
-//  print_r($tagsDivFilho);
+
 
     $buscarClasse = $tagsDivFilho->getAttribute('class');
 
@@ -28,7 +27,6 @@ foreach ($tagDivPai as $tagsDivFilho) {
         $tagsA = $tagsDivFilho->getElementsByTagName('a');
         $tagsSpan = $tagsDivFilho->getElementsByTagName('span');
         $tagsH5 = $tagsDivFilho->getElementsByTagName('h5');
-        $tagsH4 = $tagsDivFilho->getElementsByTagName('h4');
         $tagsP = $tagsDivFilho->getElementsByTagName('p');
 
         foreach ($tagsA as $tag) {
@@ -44,7 +42,7 @@ foreach ($tagDivPai as $tagsDivFilho) {
       //  print_r($arrayTagS);
 
         foreach ($tagsH5 as $tagH5) {
-
+            
             $arrayTagH5[] = $tagH5->nodeValue;
         }      
         foreach ($tagsP as $tagP) {
@@ -55,8 +53,40 @@ foreach ($tagDivPai as $tagsDivFilho) {
 
        $arrayJogos['Times'] = $arrayTagH5;
        $arrayJogos['situacao'] = $arrayTagS;
-       $arrayJogos['versos'] = $arrayTagP;
+       
     }
+   
+
 
 }
+
 print_r($arrayJogos);
+//print_r($dom);
+?>
+
+
+<ul>
+
+ <?php 
+
+foreach($arrayJogos['Times'] as $resultado){
+
+    echo '<li>'. $resultado .'</li>'; 
+
+    
+} ?>
+</ul>
+ <ul>
+      <?php
+echo '<br>';
+
+        foreach($arrayJogos['situacao'] as $situa){
+            
+            echo '<li>'. $situa . '</li>';
+        }
+?>
+
+</ul>
+
+
+

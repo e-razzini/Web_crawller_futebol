@@ -16,7 +16,7 @@ class PlacarFutebol
         $this->dom = new DOMDocument();
     }
 
-    private function getContextoConexao()
+    public function getContextoConexao()
     {
         $arrayPConfig = array(
 
@@ -37,69 +37,72 @@ class PlacarFutebol
         return $context;
     }
 
-    /////
-    private function carregarHtml()
+/////
+    public function carregarHtml()
     {
         $this->html = file_get_contents($this->url);
 
         libxml_use_internal_errors(true);
 
-        //transforma o html em objeto
+//transforma o html em objeto
         $this->dom->loadHTML($this->html);
         libxml_clear_errors();
     }
 
-    /////
-    private function capturaTodasDivs()
+/////
+    public function capturaTodasDivs()
     {
 
         $todasDiv = $this->dom->getElementsByTagName('div');
         return $todasDiv;
     }
 
-    /////
-    private function divEncontrar($todasDiv, $class = array('container content trending-box'), $tagBuscada = array('a'), $atributoHtml = array('class'))
+/////
+    public function divEncontrar($todasDiv, $nameClass = 'container content trending-box')
     {
 
-        $tagEncontrada = null;
+        $tagProcurada = null;
 
         foreach ($todasDiv as $dvsInternas) {
 
-            $buscaClasse = $dvsInternas->getAttribute($atributoHtml);
+            $buscaClasse = $dvsInternas->getAttribute('class');
 
-            if ($buscaClasse == $class) {
+            if ($buscaClasse == $nameClass) {
 
-                $tagEncontrada = $dvsInternas->getElementsByTagName($tagBuscada);
-
+                $tagProcurada = $dvsInternas->getElementsByTagName('p');
+                break;
             }
         }
-        return $tagEncontrada;
+        return $tagProcurada;
     }
+
+/////
    
-    /////
-    private function getTags($tagEncontrada)
+/////
+    public function getDados($tagProcurada)
     {
-        $arrayResultados = [];
 
-        foreach ($tagEncontrada as $tag) {
+        $arrayTags = [];
 
-            $arrayResultados[] = $tag->nodeValue;
+        foreach ($tagProcurada as $tagInfo) {
+
+            $arrayTags[] = $tagInfo->nodeValue;
         }
 
-        return $arrayResultados;
+        return $arrayTags;
     }
-    
-    /////
+
+/////
     public function resultadoPlacar()
     {
 
         $this->carregarHtml();
-
         $tagsDiv = $this->capturaTodasDivs();
 
-        $encontraTagA = $this->divEncontrar($tagsDiv);
-        $resultadoJogos = $this->getTags($encontraTagA);
-        return $resultadoJogos;
+        $encontraTagA = $this->divEncontrar($tagsDiv);        
+        $capturaTags =$this->getDados($encontraTagA);
+
+        return $capturaTags;
 
     }
 
@@ -107,4 +110,6 @@ class PlacarFutebol
 $resultados = new PlacarFutebol();
 
 $paragrafoResultados = $resultados->resultadoPlacar();
-echo $paragrafoResultados;
+$paragrafoResultados;
+
+print_r($paragrafoResultados);
