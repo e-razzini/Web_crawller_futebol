@@ -12,11 +12,11 @@ class PlacarFutebol
     public function __construct()
     {
         $this->proxy = '10.1.21.254:3128';
-        $this->url = 'https://www.gutenberg.org/';
+        $this->url = 'https://www.placardefutebol.com.br/';
         $this->dom = new DOMDocument();
     }
 
-    public function getContextoConexao()
+    private function getContextoConexao()
     {
         $arrayPConfig = array(
 
@@ -38,7 +38,7 @@ class PlacarFutebol
     }
 
 /////
-    public function carregarHtml()
+    private function carregarHtml()
     {
         $this->html = file_get_contents($this->url);
 
@@ -50,7 +50,7 @@ class PlacarFutebol
     }
 
 /////
-    public function capturaTodasDivs()
+    private function capturaTodasDivs()
     {
 
         $todasDiv = $this->dom->getElementsByTagName('div');
@@ -58,33 +58,36 @@ class PlacarFutebol
     }
 
 /////
-    public function divEncontrar($todasDiv, $nameClass = 'container content trending-box')
+    private function divEncontrar($todasDiv)
     {
 
-        $tagProcurada = null;
+        $divInterna=null;
 
         foreach ($todasDiv as $dvsInternas) {
 
             $buscaClasse = $dvsInternas->getAttribute('class');
 
-            if ($buscaClasse == $nameClass) {
+            if ($buscaClasse == 'container content trending-box') {
+          
+              $divInterna = $dvsInternas->getElementsByTagName('a');
+            //     $divInterna['situacao'] = $dvsInternas->getElementsByTagName('span');
+            //     $divInterna['nomes'] = $dvsInternas->getElementsByTagName('h5');
+            //     $divInterna = $dvsInternas->getElementsByTagName('p');
 
-                $tagProcurada = $dvsInternas->getElementsByTagName('p');
                 break;
             }
         }
-        return $tagProcurada;
+        return $divInterna;
     }
 
+
 /////
-   
-/////
-    public function getDados($tagProcurada)
+    private function getDados($tagBuscada)
     {
 
-        $arrayTags = [];
+        $arrayTags = null;
 
-        foreach ($tagProcurada as $tagInfo) {
+        foreach ($tagBuscada as $tagInfo) {
 
             $arrayTags[] = $tagInfo->nodeValue;
         }
@@ -99,17 +102,13 @@ class PlacarFutebol
         $this->carregarHtml();
         $tagsDiv = $this->capturaTodasDivs();
 
-        $encontraTagA = $this->divEncontrar($tagsDiv);        
-        $capturaTags =$this->getDados($encontraTagA);
+        $encontraDiv = $this->divEncontrar($tagsDiv);
+     
+        $capturaTags = $this->getDados($encontraDiv);
 
         return $capturaTags;
 
     }
 
 }
-$resultados = new PlacarFutebol();
 
-$paragrafoResultados = $resultados->resultadoPlacar();
-$paragrafoResultados;
-
-print_r($paragrafoResultados);

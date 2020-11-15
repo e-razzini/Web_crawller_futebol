@@ -33,13 +33,13 @@ foreach ($tagDivPai as $tagsDivFilho) {
 
             $arrayTagA[] = $tag->nodeValue;
         }
-       // print_r($arrayTagA);
+         // print_r($arrayTagA);
 
         foreach ($tagsSpan as $tagS) {
 
             $arrayTagS[] = $tagS->nodeValue;
         }
-      //  print_r($arrayTagS);
+         //  print_r($arrayTagS);
 
         foreach ($tagsH5 as $tagH5) {
             
@@ -50,7 +50,7 @@ foreach ($tagDivPai as $tagsDivFilho) {
             $arrayTagP[] = $tagP->nodeValue;
         }
       
-
+     
        $arrayJogos['Times'] = $arrayTagH5;
        $arrayJogos['situacao'] = $arrayTagS;
        
@@ -59,8 +59,8 @@ foreach ($tagDivPai as $tagsDivFilho) {
 
 
 }
+print_r (json_encode($arrayJogos));
 
-print_r($arrayJogos);
 //print_r($dom);
 ?>
 
