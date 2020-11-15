@@ -80,6 +80,23 @@ class PlacarFutebol
         return $divInterna;
     }
 
+      private function divEncontrarBuscaTag($todasDiv,$valueAttribute  ='container content',$typeAttribute ='class',$tagValue ='a')
+    {
+
+        $divInterna=null;
+
+        foreach ($todasDiv as $dvsInternas) {
+
+            $buscaClasse = $dvsInternas->getAttribute($typeAttribute);
+
+            if ($buscaClasse == $valueAttribute) {
+          
+              $divInterna = $dvsInternas->getElementsByTagName($tagValue);          
+                break;
+            }
+        }
+        return $divInterna;
+    }
 
 /////
     private function getDados($tagBuscada)
@@ -102,11 +119,18 @@ class PlacarFutebol
         $this->carregarHtml();
         $tagsDiv = $this->capturaTodasDivs();
 
-        $encontraDiv = $this->divEncontrar($tagsDiv);
-     
-        $capturaTags = $this->getDados($encontraDiv);
+        $encontraDiv = $this->divEncontrar($tagsDiv);     
+        $capturaOutTags =$this->divEncontrarBuscaTag($tagsDiv);
 
-        return $capturaTags;
+        $capturaTags = $this->getDados($capturaOutTags);
+        $capturaTag = $this->getDados($encontraDiv);
+        
+        $captura =[];
+
+        $captura ['amistoso_selecao'] = $capturaTags;
+        $captura ['mais_Populares'] = $capturaTag;
+          
+        return   $captura ;
 
     }
 
