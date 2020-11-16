@@ -12,7 +12,7 @@ class Liga
     public function __construct()
     {
         $this->proxy = '10.1.21.254:3128';
-        $this->url = 'https: //www.placardefutebol.com.br/liga-das-nacoes-uefa/';
+        $this->url = 'https://www.placardefutebol.com.br/amistosos-selecoes';
         $this->dom = new DOMDocument();
     }
 
@@ -40,7 +40,9 @@ class Liga
 /////
     private function carregarHtml()
     {
-        $this->html = file_get_contents($this->url);
+        //$this->html = file_get_contents($this->url);
+        $context = $this->getContextoConexao();
+        $this->html = file_get_contents($this->url, false, $context);
 
         libxml_use_internal_errors(true);
 
@@ -106,7 +108,8 @@ class Liga
 
         foreach ($tagBuscada as $tagInfo) {
 
-            $arrayTags[] = $tagInfo->nodeValue;
+            $tag = str_replace("\n", "", trim($tagInfo->nodeValue));
+            $arrayTags[] = str_replace("          ", " ", trim($tag));
         }
 
         return $arrayTags;
@@ -127,10 +130,10 @@ class Liga
         $capturaTags = $this->getDados($dn);
                
         $captura =[];
-        $captura ['amistoso_selecao'] = $capturaTags;
+        $captura ['amistoso_selecoes'] = $capturaTags;
       
           
-        return  $capturaTags;
+        return  $captura;
 
     }
 

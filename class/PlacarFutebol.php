@@ -40,7 +40,9 @@ class PlacarFutebol
 /////
     private function carregarHtml()
     {
-        $this->html = file_get_contents($this->url);
+        //$this->html = file_get_contents($this->url);
+        $context = $this->getContextoConexao();
+        $this->html = file_get_contents($this->url, false, $context);
 
         libxml_use_internal_errors(true);
 
@@ -106,14 +108,15 @@ class PlacarFutebol
 
         foreach ($tagBuscada as $tagInfo) {
 
-            $arrayTags[] = $tagInfo->nodeValue;
+            $tag = str_replace("\n", "", trim($tagInfo->nodeValue));
+            $arrayTags[] = str_replace("          ", " ", trim($tag));
         }
 
         return $arrayTags;
     }
 
-/////
-    public function resultadoPlacar()
+ 
+public function resultadoPlacar()
     {
 
         $this->carregarHtml();
@@ -122,15 +125,16 @@ class PlacarFutebol
         $encontraDiv = $this->divEncontrar($tagsDiv);     
         $capturaOutTags =$this->divEncontrarBuscaTag($tagsDiv);
 
-        $capturaTags = $this->getDados($capturaOutTags);
+        $capturaTags = $this->getDados($capturaOutTags);       
         $capturaTag = $this->getDados($encontraDiv);
         
         $captura =[];
-
-        $captura ['amistoso_selecao'] = $capturaTags;
+    
+        
+        $captura ['amistoso_selecao'] = $capturaTags;        
         $captura ['mais_Populares'] = $capturaTag;
-          
-        return   $captura ;
+        
+        return  $captura;
 
     }
 
