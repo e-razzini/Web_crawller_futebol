@@ -61,7 +61,7 @@ foreach ($tagDivPai as $tagsDivFilho) {
 }
 print_r (json_encode($arrayJogos));
 
-//print_r($dom);
+print_r($dom);
 ?>
 
 
