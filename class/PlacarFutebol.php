@@ -109,7 +109,10 @@ class PlacarFutebol
         foreach ($tagBuscada as $tagInfo) {
 
             $tag = str_replace("\n", "", trim($tagInfo->nodeValue));
-            $arrayTags[] = str_replace("          ", " ", trim($tag));
+            if($tag != "Ver tabela e classificação"){
+                $arrayTags[] = str_replace("          ", " ", trim($tag));
+            }
+           
         }
 
         return $arrayTags;
@@ -131,7 +134,7 @@ public function resultadoPlacar()
         $captura =[];
     
         
-        $captura ['amistoso_selecao'] = $capturaTags;        
+        $captura ['jogo'] = $capturaTags;        
         $captura ['mais_Populares'] = $capturaTag;
         
         return  $captura;

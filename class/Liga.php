@@ -108,7 +108,7 @@ class Liga
 
         foreach ($tagBuscada as $tagInfo) {
 
-            $tag = str_replace("\n", "", trim($tagInfo->nodeValue));
+            $tag = str_replace("\n"," ", trim($tagInfo->nodeValue));
             $arrayTags[] = str_replace("          ", " ", trim($tag));
         }
 
