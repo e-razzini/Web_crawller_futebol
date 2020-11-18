@@ -40,9 +40,9 @@ class Liga
 /////
     private function carregarHtml()
     {
-        //$this->html = file_get_contents($this->url);
         $context = $this->getContextoConexao();
-        $this->html = file_get_contents($this->url, false, $context);
+        $this->html = file_get_contents($this->url);
+        //$this->html = file_get_contents($this->url, false, $context);
 
         libxml_use_internal_errors(true);
 
@@ -109,7 +109,7 @@ class Liga
         foreach ($tagBuscada as $tagInfo) {
 
             $tag = str_replace("\n"," ", trim($tagInfo->nodeValue));
-            $arrayTags[] = str_replace("          ", " ", trim($tag));
+            $arrayTags[] = str_replace("    ","", trim($tag));
         }
 
         return $arrayTags;

@@ -40,9 +40,9 @@ class PlacarFutebol
 /////
     private function carregarHtml()
     {
-        //$this->html = file_get_contents($this->url);
         $context = $this->getContextoConexao();
-        $this->html = file_get_contents($this->url, false, $context);
+        $this->html = file_get_contents($this->url);
+        //$this->html = file_get_contents($this->url, false, $context);
 
         libxml_use_internal_errors(true);
 
@@ -63,37 +63,38 @@ class PlacarFutebol
     private function divEncontrar($todasDiv)
     {
 
-        $divInterna=null;
+        $divInterna = null;
 
         foreach ($todasDiv as $dvsInternas) {
 
             $buscaClasse = $dvsInternas->getAttribute('class');
 
             if ($buscaClasse == 'container content trending-box') {
-          
-              $divInterna = $dvsInternas->getElementsByTagName('a');
-            //     $divInterna['situacao'] = $dvsInternas->getElementsByTagName('span');
-            //     $divInterna['nomes'] = $dvsInternas->getElementsByTagName('h5');
-            //     $divInterna = $dvsInternas->getElementsByTagName('p');
+
+                $divInterna = $dvsInternas->getElementsByTagName('a');
+                // outras tags Se desejar pegar
+                //     $divInterna['situacao'] = $dvsInternas->getElementsByTagName('span');
+                //     $divInterna['nomes'] = $dvsInternas->getElementsByTagName('h5');
+                //     $divInterna = $dvsInternas->getElementsByTagName('p');
 
                 break;
             }
         }
         return $divInterna;
     }
-
-      private function divEncontrarBuscaTag($todasDiv,$valueAttribute  ='container content',$typeAttribute ='class',$tagValue ='a')
+// teste de funcão com paramentros a seu gosto
+    private function divEncontrarBuscaTag($todasDiv, $valueAttribute = 'container content', $typeAttribute = 'class', $tagValue = 'a')
     {
 
-        $divInterna=null;
+        $divInterna = null;
 
         foreach ($todasDiv as $dvsInternas) {
 
             $buscaClasse = $dvsInternas->getAttribute($typeAttribute);
 
             if ($buscaClasse == $valueAttribute) {
-          
-              $divInterna = $dvsInternas->getElementsByTagName($tagValue);          
+
+                $divInterna = $dvsInternas->getElementsByTagName($tagValue);
                 break;
             }
         }
@@ -109,37 +110,36 @@ class PlacarFutebol
         foreach ($tagBuscada as $tagInfo) {
 
             $tag = str_replace("\n", "", trim($tagInfo->nodeValue));
-            if($tag != "Ver tabela e classificação"){
-                $arrayTags[] = str_replace("          ", " ", trim($tag));
+
+            if ($tag != "Ver tabela e classificação") {
+                
+                $arrayTags[] = str_replace("   ","", trim($tag));
             }
-           
+
         }
 
         return $arrayTags;
     }
 
- 
-public function resultadoPlacar()
+    public function resultadoPlacar()
     {
 
         $this->carregarHtml();
         $tagsDiv = $this->capturaTodasDivs();
 
-        $encontraDiv = $this->divEncontrar($tagsDiv);     
-        $capturaOutTags =$this->divEncontrarBuscaTag($tagsDiv);
+        $encontraDiv = $this->divEncontrar($tagsDiv);
+        $capturaOutTags = $this->divEncontrarBuscaTag($tagsDiv);
 
-        $capturaTags = $this->getDados($capturaOutTags);       
+        $capturaTags = $this->getDados($capturaOutTags);
         $capturaTag = $this->getDados($encontraDiv);
-        
-        $captura =[];
-    
-        
-        $captura ['jogo'] = $capturaTags;        
-        $captura ['mais_Populares'] = $capturaTag;
-        
-        return  $captura;
+
+        $captura = [];
+
+        $captura['jogo'] = $capturaTags;
+        $captura['mais_Populares'] = $capturaTag;
+
+        return $captura;
 
     }
 
 }
-
