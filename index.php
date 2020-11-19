@@ -2,7 +2,7 @@
 
 require './classes/PlacarFutebol.php';
 require './classes/Liga.php';
-require './classes/Jogo.php';
+require './classes/class/Jogo.php';
 
 $resultados = new PlacarFutebol();
 $liga = new Liga();
@@ -21,4 +21,3 @@ foreach ($resultadoLiga as $value) {
     $novaInfo->inserir($value);
 
 }
-
