@@ -41,8 +41,8 @@ class PlacarFutebol
     private function carregarHtml()
     {
         $context = $this->getContextoConexao();
-       // $this->html = file_get_contents($this->url);
-        $this->html = file_get_contents($this->url, false, $context);
+        $this->html = file_get_contents($this->url);
+        //$this->html = file_get_contents($this->url, false, $context);
 
         libxml_use_internal_errors(true);
 
@@ -112,8 +112,8 @@ class PlacarFutebol
             $tag = str_replace("\n", "", trim($tagInfo->nodeValue));
 
             if ($tag != "Ver tabela e classificação") {
-                
-                $arrayTags[] = str_replace("   ","", trim($tag));
+
+                $arrayTags[] = str_replace("   ", "", trim($tag));
             }
 
         }
@@ -135,8 +135,8 @@ class PlacarFutebol
 
         $captura = [];
 
-         $captura= $capturaTags;
-         $captura = $capturaTag;
+        $captura = $capturaTags;
+        $captura = $capturaTag;
 
         return $capturaTag;
 

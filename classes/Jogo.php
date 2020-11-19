@@ -4,7 +4,7 @@
 require 'Conexao.php';
 use Classes\Conexao;
 
-class Informacoes {
+class Jogo {
 
     public function __construct() {
 

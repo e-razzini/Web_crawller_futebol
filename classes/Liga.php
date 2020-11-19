@@ -41,8 +41,8 @@ class Liga
     private function carregarHtml()
     {
         $context = $this->getContextoConexao();
-     //   $this->html = file_get_contents($this->url);
-       $this->html = file_get_contents($this->url, false, $context);
+        $this->html = file_get_contents($this->url);
+        //$this->html = file_get_contents($this->url, false, $context);
 
         libxml_use_internal_errors(true);
 
@@ -58,8 +58,7 @@ class Liga
         return $todasDiv;
     }
 
-
-    private function divEncontrarClasse($divPai, $nameClass, $typeAttribute ='class')
+    private function divEncontrarClasse($divPai, $nameClass, $typeAttribute = 'class')
     {
 
         $divInterna = null;
@@ -77,18 +76,14 @@ class Liga
         return $divInterna;
     }
 
-
-
-
-    private function divEncontraTag($subDiv,$nomeClasse,$tagValue ='a')
+    private function divEncontraTag($subDiv, $nomeClasse, $tagValue = 'a')
     {
 
         $tagRetornada = null;
 
         foreach ($subDiv as $dvsInternas) {
 
-             $buscaClasse = $dvsInternas->getAttribute('class');
-            
+            $buscaClasse = $dvsInternas->getAttribute('class');
 
             if ($buscaClasse == $nomeClasse) {
 
@@ -100,21 +95,19 @@ class Liga
         return $tagRetornada;
     }
 
-
     private function getDados($tagBuscada)
     {
 
-        $arrayTags =[];
+        $arrayTags = [];
 
         foreach ($tagBuscada as $tagInfo) {
 
-            $tag = str_replace("\n"," ", trim($tagInfo->nodeValue));
-            $arrayTags[] = str_replace("    ","", trim($tag));
+            $tag = str_replace("\n", " ", trim($tagInfo->nodeValue));
+            $arrayTags[] = str_replace("    ", "", trim($tag));
         }
 
         return $arrayTags;
     }
-
 
     public function resultadoLiga()
     {
@@ -122,18 +115,17 @@ class Liga
         $this->carregarHtml();
         $tagsDiv = $this->scannerDivs();
 
-        $dp = $this->divEncontrarClasse($tagsDiv,'container main-content');     
-        $df = $this->divEncontrarClasse($dp,'livescore','id');  
+        $dp = $this->divEncontrarClasse($tagsDiv, 'container main-content');
+        $df = $this->divEncontrarClasse($dp, 'livescore', 'id');
 
-        $dn =$this->divEncontraTag($df,'container content'); 
+        $dn = $this->divEncontraTag($df, 'container content');
 
         $capturaTags = $this->getDados($dn);
-               
-        $captura =[];
-        $captura ['liga-UEFA'] = $capturaTags;
-      
-          
-        return  $captura;
+
+        $captura = [];
+        $captura = $capturaTags;
+
+        return $captura;
 
     }
 
