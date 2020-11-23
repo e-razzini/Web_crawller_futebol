@@ -41,8 +41,8 @@ class PlacarFutebol
     private function carregarHtml()
     {
         $context = $this->getContextoConexao();
-        $this->html = file_get_contents($this->url);
-        //$this->html = file_get_contents($this->url, false, $context);
+        //$this->html = file_get_contents($this->url);
+        $this->html = file_get_contents($this->url, false, $context);
 
         libxml_use_internal_errors(true);
 
@@ -71,12 +71,7 @@ class PlacarFutebol
 
             if ($buscaClasse == 'container content trending-box') {
 
-                $divInterna = $dvsInternas->getElementsByTagName('a');
-                // outras tags Se desejar pegar
-                //     $divInterna['situacao'] = $dvsInternas->getElementsByTagName('span');
-                //     $divInterna['nomes'] = $dvsInternas->getElementsByTagName('h5');
-                //     $divInterna = $dvsInternas->getElementsByTagName('p');
-
+                $divInterna = $dvsInternas->getElementsByTagName('a');           
                 break;
             }
         }

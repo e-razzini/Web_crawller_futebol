@@ -15,7 +15,7 @@ class Jogo {
 
     public function listar() {
         
-        $sql = "select resultado_jogos.informacao, resultado_jogos.data_captura * from resultado_jogos;";       
+        $sql = "select * from resultado_jogos;";       
         $q = $this->conexao->prepare($sql);
         $q->execute();
         return $q;
@@ -24,11 +24,12 @@ class Jogo {
 
     public function inserir($informacao) {
         
-        $sql = "insert into  resultado_jogos (informacao) values (?);";
+        $dataAtual =date('Y-m-d H:i:s');
+        $sql = "insert into  resultado_jogos (informacao,data_captura) values (?,?);";
         $q = $this->conexao->prepare($sql);        
-        $q->bindParam(1,$informacao);        
-        $q->execute();
-        
+        $q->bindParam(1,$informacao);                      
+        $q->bindParam(2,$dataAtual);        
+        $q->execute();        
     }
 
 
