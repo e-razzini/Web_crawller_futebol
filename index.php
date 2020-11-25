@@ -4,8 +4,20 @@ require './classes/PlacarFutebol.php';
 require './classes/Liga.php';
 require './classes/class/Jogo.php';
 
+$dataAtualAuto =time();
+$dataAtualizacao;
+
+
 $jog = new Jogo();
 $jogos = $jog->listar();
+
+if($dataAtualAuto - $jog->$dataAtual >= 500){
+    
+}else {
+    $jogos = $jog->listar();
+}
+
+
 ?>
 
 <!DOCTYPE html>

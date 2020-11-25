@@ -1,6 +1,6 @@
 
 
-create webcrawller;
+create database webcrawller;
 use webcraller;
 
 create table resultado_jogos (

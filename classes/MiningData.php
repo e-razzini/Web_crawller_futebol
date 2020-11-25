@@ -8,16 +8,24 @@ $resultados = new PlacarFutebol();
 $liga = new Liga();
 $novaInfo = new Jogo();
 
-$paragrafoResultados = $resultados->resultadoPlacar();
+$resultadoJogos = $resultados->resultadoPlacar();
 $resultadoLiga = $liga->resultadoLiga();
 
-foreach ($paragrafoResultados as $value) {
+automaticScann($resultadoJogos);
+automaticScann($resultadoLiga);
+
+
+
+function automaticScann($array){
+
+    foreach ($array as $value) {
   
-    $novaInfo->inserir($value);
+        $novaInfo->inserir($value);
+    }
+
 }
-foreach ($resultadoLiga as $value) {
-    
-    $novaInfo->inserir($value);
-}
+
+
+
 
 ?>
