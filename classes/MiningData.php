@@ -1,8 +1,10 @@
 <?php
 
-require './Liga.php';
-require './PlacarFutebol.php';
-require '../classes/class/Jogo.php';
+require 'Liga.php';
+require 'PlacarFutebol.php';
+require './class/Jogo.php';
+
+class MiningData {
 
 $resultados = new PlacarFutebol();
 $liga = new Liga();
@@ -11,19 +13,24 @@ $novaInfo = new Jogo();
 $resultadoJogos = $resultados->resultadoPlacar();
 $resultadoLiga = $liga->resultadoLiga();
 
-automaticScann($resultadoJogos);
-automaticScann($resultadoLiga);
+autoMatic($resultadoJogos);
+autoMatic($resultadoLiga);
 
+function autoMatic($array){
+   $novaInfo = new Jogo();
 
-
-function automaticScann($array){
-
-    foreach ($array as $value) {
+   foreach ($resultadoLiga as $value) {
   
-        $novaInfo->inserir($value);
-    }
+      $novaInfo->inserir($value);
+      }
+}   
+
 
 }
+
+
+
+
 
 
 

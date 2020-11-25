@@ -21,6 +21,14 @@ class Jogo {
         return $q;
         
     }
+    public function dateDeInput() {
+        
+        $sql = "select data_captura from resultado_jogos order by data_captura desc limit 1;";       
+        $q = $this->conexao->prepare($sql);
+        $q->execute();
+        return $q;
+        
+    }
 
     public function inserir($informacao) {
         

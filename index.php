@@ -3,19 +3,30 @@
 require './classes/PlacarFutebol.php';
 require './classes/Liga.php';
 require './classes/class/Jogo.php';
+require './classes/MiningData.php';
 
-$dataAtualAuto =time();
-$dataAtualizacao;
 
 
 $jog = new Jogo();
+$dadoMing = new MiningData();
+
+$dataAtual = date('Y-m-d H:i:s');
+$dataUltimaAtualizacao = $jog->dateDeInput(); 
+$dataAtualizada = "";
+
+foreach ($dataUltimaAtualizacao as $data){
+   $dataAtualizada = $data['data_captura'];
+}
+
+$ultAtua = strtotime($dataAtualizada);
+$dtAtual = time();
+
+ if( ($dtAtual - $ultAtua) <= 5000 ){
+    $dadoMing->automatic();
+}
+
 $jogos = $jog->listar();
 
-if($dataAtualAuto - $jog->$dataAtual >= 500){
-    
-}else {
-    $jogos = $jog->listar();
-}
 
 
 ?>
