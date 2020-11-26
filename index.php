@@ -22,7 +22,7 @@ $ultAtua = strtotime($dataAtualizada);
 $dtAtual = time();
 
  if( ($dtAtual - $ultAtua) <= 5000 ){
-    $dadoMing->automatic();
+    $dadoMing->list();
 }
 
 $jogos = $jog->listar();

@@ -41,8 +41,8 @@ class PlacarFutebol
     private function carregarHtml()
     {
         $context = $this->getContextoConexao();
-       // $this->html = file_get_contents($this->url);
-        $this->html = file_get_contents($this->url, false, $context);
+        $this->html = file_get_contents($this->url);
+        //$this->html = file_get_contents($this->url, false, $context);
 
         libxml_use_internal_errors(true);
 
