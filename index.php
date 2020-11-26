@@ -1,9 +1,9 @@
 <?php
 
 require './classes/PlacarFutebol.php';
-require './classes/Liga.php';
-require './classes/class/Jogo.php';
+require './classes/League.php';
 require './classes/MiningData.php';
+require './classes/class/Jogo.php';
 
 
 
@@ -11,23 +11,26 @@ $jog = new Jogo();
 $dadoMing = new MiningData();
 
 $dataAtual = date('Y-m-d H:i:s');
-$dataUltimaAtualizacao = $jog->dateDeInput(); 
+$dataUltimaAtualizacao = $jog->dateDeInput();
 $dataAtualizada = "";
 
-foreach ($dataUltimaAtualizacao as $data){
-   $dataAtualizada = $data['data_captura'];
+foreach ($dataUltimaAtualizacao as $data) {
+    $dataAtualizada = $data['data_captura'];
 }
 
 $ultAtua = strtotime($dataAtualizada);
 $dtAtual = time();
 
- if( ($dtAtual - $ultAtua) <= 5000 ){
-    $dadoMing->list();
+if( ($dtAtual - $ultAtua) <= 5000 ){
+
+   $data = $dadoMing->listNewData();
+   $dada =$jog->listar();
+   
+}else {
+
+    $jogos = $jog->listar();
 }
-
-$jogos = $jog->listar();
-
-
+ 
 
 ?>
 
@@ -46,14 +49,14 @@ $jogos = $jog->listar();
        <h2>Jogos de futebol</h2>
     <ul>
 
-        <?php foreach ($jogos as  $j) { ?>
+        <?php foreach ($jogos as $j) {?>
             <li><?php echo $j['informacao']; ?></li>
-        <?php } ?>
-     
+        <?php }?>
+
 
     </ul>
 
-  
+
 
 </body>
 

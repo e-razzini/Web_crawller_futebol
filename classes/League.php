@@ -1,13 +1,12 @@
 <?php
 
-class Liga
+class League
 {
 
     private $url;
     private $proxy;
     private $dom;
     private $html;
-// public $resultadoJogos =[];
 
     public function __construct()
     {
@@ -42,7 +41,7 @@ class Liga
     {
         $context = $this->getContextoConexao();
         $this->html = file_get_contents($this->url);
-        // $this->html = file_get_contents($this->url, false, $context);
+        //$this->html = file_get_contents($this->url, false, $context);
 
         libxml_use_internal_errors(true);
 

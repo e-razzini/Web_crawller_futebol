@@ -1,40 +1,51 @@
-               <?php
+ <?php
 
-require 'Liga.php';
+require 'League.php';
 require 'PlacarFutebol.php';
 require './class/Jogo.php';
 
-class MiningData
-{
+class MiningData {
 
     private $resultados;
     private $liga;
 
     public function __construct()
     {
-        $lig = new liga();
-        $result = new PlacarFutebol();
-
-        $this->resultados = $result->resultadoPlacar();
-        $this->liga = $lig->resultadoLiga();
+        
+        $this->resultados = new PlacarFutebol();
+        $this->liga = new League();
     }
 
-    function list() {
-        $this->insertData($this->resultados);
-        $this->insertData($this->liga);
+   //   $resultadosJogos = $this->resultados->resultadoPlacar();
+    //  $resultadoLiga  = $this->liga->resultadoLiga();
 
-    }
-    private function insertData($array)
-    {
-        $info = new Jogo();
-        $dados = [];
-        foreach ($array as $value) {
 
-            $dados = $info->inserir($value);
-        }
-        return $dados;
-    }
 
+public function listNewData(){
+
+    $resultadosJogos = $this->resultados->resultadoPlacar();
+    $resultadoLiga = $this->liga->resultadoLiga();
+     $aux = $this->automaticMining($resultadosJogos);
+    //$this->automaticMining($resultadoLiga);
+    
+   return $aux;
+   
 }
+
+
+ private function automaticMining($array)
+{
+    $novaInfo = new Jogo();
+    $dados = [];
+    foreach($array as $value) {
+ 
+     $dados =  $novaInfo->inserir($value);
+    }
+    return $dados;
+}
+   
+
+}        
+
 
 ?>
