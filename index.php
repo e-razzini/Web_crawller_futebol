@@ -2,14 +2,13 @@
 
 require './classes/PlacarFutebol.php';
 require './classes/League.php';
-require './classes/MiningData.php';
 require './classes/class/Jogo.php';
 
-
-
 $jog = new Jogo();
-$dadoMing = new MiningData();
+$lig =new League();
+$placar = new PlacarFutebol();
 
+// timer de controle
 $dataAtual = date('Y-m-d H:i:s');
 $dataUltimaAtualizacao = $jog->dateDeInput();
 $dataAtualizada = "";
@@ -17,20 +16,38 @@ $dataAtualizada = "";
 foreach ($dataUltimaAtualizacao as $data) {
     $dataAtualizada = $data['data_captura'];
 }
-
 $ultAtua = strtotime($dataAtualizada);
 $dtAtual = time();
+//fim timer controle
 
-if( ($dtAtual - $ultAtua) <= 5000 ){
+$resultadosJogos = $placar->resultadoPlacar();
+$resultadoLiga = $lig->resultadoLiga();
 
-   $data = $dadoMing->listNewData();
-   $dada =$jog->listar();
-   
-}else {
+if (($dtAtual - $ultAtua) == 8000) {
+
+    
+   automaticMining($resultadosJogos);
+   automaticMining($resultadoLiga);
+    
+    $jogos = $jog->listar();
+
+} else {
+
 
     $jogos = $jog->listar();
 }
- 
+
+function automaticMining($array)
+{
+
+    $jog = new Jogo();
+
+    foreach ($array as $value) {
+
+        $jog->inserir($value);
+    }
+
+}
 
 ?>
 

@@ -39,6 +39,15 @@ class Jogo {
         $q->bindParam(2,$dataAtual);        
         $q->execute();        
     }
+    public function update($informacao) {
+        
+        $dataAtual =date('Y-m-d H:i:s');
+        $sql = "Update resultado_jogos  set informacao = ? ,data_captura = ?  where id_resultado >  0;";
+        $q = $this->conexao->prepare($sql);        
+        $q->bindParam(1,$informacao);                      
+        $q->bindParam(2,$dataAtual);        
+        $q->execute();        
+    }
 
 
 
