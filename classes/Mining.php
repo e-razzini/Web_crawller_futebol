@@ -1,8 +1,8 @@
  <?php
 
-require_once 'Uefa.php';
-require_once 'PlacarFutebol.php';
-require_once 'class/Jogo.php';
+require_once('Uefa.php');
+require_once('PlacarFutebol.php');
+require_once('class/Jogo.php');
 
 class Mining
 {
