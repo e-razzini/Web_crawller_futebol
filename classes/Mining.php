@@ -21,7 +21,7 @@ class Mining
 
     }
 
-    public function listaJogos()
+    public function listaNovosJogos()
     {
        
 

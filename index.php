@@ -34,7 +34,8 @@ $controlData = $dtAtual - $ultAtua;
 
 if ($controlData <= 5000) {
 
-    $min->listaJogos();
+    $jog->zerarTabela();
+    $min->listaNovosJogos();
     $jogos = $jog->listar();
 
 } else {

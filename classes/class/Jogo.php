@@ -12,7 +12,13 @@ class Jogo {
         $this->conexao = $con->getConexao();
 
     }
-
+     public function zerarTabela()
+    {
+        $sql = "truncate table resultado_jogos;";       
+        $q = $this->conexao->prepare($sql);
+        $q->execute();
+        return $q;
+    }  
     public function listar() {
         
         $sql = "select * from resultado_jogos;";       
